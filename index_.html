@@ -1,0 +1,1294 @@
+<!doctype html>
+<!-- <chrome class="exe">
+  --disable-gpu-vsync
+  --disable-gpu-sandbox 
+  --disable-gpu
+</chrome> -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Company - Company Assessment Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* RESET */
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:"Inter",sans-serif;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{text-decoration:none;color:inherit}
+
+  /* VARIABLES */
+  :root{
+    --brand-red:#f21010;
+    --brand-red-2:#ffabc6;
+    --strategy-color:#FD78AA;
+    --glass-bg:linear-gradient(109deg,rgba(255,255,255,0.24),rgba(255,255,255,0.06));
+    --glass-border:linear-gradient(109deg,rgba(242,16,16,0.28),rgba(255, 255, 255, 0.767) 36%,rgba(199, 3, 0, 0.95) 74%,rgba(255,255,255,0.25));
+    --footer-bg:#2a2a2a;
+    --muted-gray:#d9d9d9;
+    --white-rgba: rgba(255,255,255,0.95);
+    --black-rgba: rgba(0,0,0,0.95);
+  }
+
+ /* body{background:#d64550;color:#fff}*/
+ body{background:#fff; color:black ;}
+
+  /* BUTTONS: default = white bg + black text; hover => gradient + white text */
+  .btn {
+    display:inline-block;
+    padding:12px 20px;
+    border-radius:8px;
+    background:#fff;
+    color:#111;
+    font-weight:700;
+    border: none;
+    cursor:pointer;
+    transition: all 200ms ease;
+    box-shadow:0 6px 12px rgba(0,0,0,0.12);
+    font-family: "Inter", sans-serif;
+  }
+  .btn:hover{
+    background: linear-gradient(90deg,var(--brand-red),var(--brand-red-2));
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(0,0,0,0.18);
+  }
+  /* sizes */
+  .btn.lg{padding:14px 34px;border-radius:8px;font-size:16px}
+  .btn.xl{padding:14px 30px;font-size:15px} /* xl smaller as requested for CTA */
+
+  /* LAYOUT CONTAINER */
+  .container{width:min(1180px,94%);margin:0 auto}
+
+  /* 1. HEADER */
+  header{
+    background:#000;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 32px;
+  }
+  .header-left,.header-center,.header-right{display:flex;align-items:center;gap:12px}
+  .header-center{flex:1;justify-content:center}
+  .phone,.email{font-weight:700;font-size:16px;color:#fff}
+  .logo{width:260px;height:auto}
+
+  .header-left a, .header-right a, .header-center a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+  /* Glass card base (used by many containers) */
+  .glass-base{
+    border-radius:28px;
+    background:var(--glass-bg);
+    /* backdrop-filter:blur(50px); */
+    /* -webkit-backdrop-filter:blur(50px); */
+    position:relative;
+    box-shadow:0 0 50px -25px rgba(0,0,0,0.5);
+  }
+  .glass-base::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    padding:3px;
+    background:var(--glass-border);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    pointer-events:none;
+  }
+
+  /* 2. KNOW YOUR RISKS */
+  .glass-card{
+    margin:48px auto;
+    max-width:1000px;
+    padding:48px;
+  }
+  .glass-inner{max-width:820px;margin:0 auto;text-align:left;color:var(--black-rgba)}
+  .glass-card h2{font-size:48px;font-weight:800;margin:0 0 14px;line-height:1.03}
+  .glass-card h2 .accent{color:var(--brand-red)}
+  /* keep your existing p/li weight for emphasis, but CTA needs its own font-size/weight */
+  .glass-card p, .glass-card li{
+    font-size:16px;
+    line-height:1.6;
+    /*color:rgba(255,255,255,0.95); */
+    color: black;
+    font-family:"Inter",sans-serif;
+    font-weight:700;
+    letter-spacing:0.2px;
+  }
+
+  /* CTA inside Know Your Risks: Inter, weight 800, slightly reduced size (15px) */
+  .glass-actions{
+    display:flex;
+    justify-content:center;
+    margin-top:26px;
+    gap:12px;
+  }
+  .glass-actions .start-btn{
+    font-family:"Inter",sans-serif;
+    font-weight:800;
+    font-size:15px;            /* reduced a bit */
+    padding:12px 28px;
+    border-radius:8px;
+    background:black;
+    color:#FFF;
+    box-shadow:0 8px 16px rgba(0,0,0,0.2);
+    border:none;
+    cursor:pointer;
+      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+  }
+  .glass-actions .start-btn:hover{ transform:translateY(-5px); background:linear-gradient(90deg,var(--brand-red),var(--brand-red-2)); color: white; }
+
+  /* 3. FROM SCORE TO STRATEGY */
+  .section-title{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    font-size:36px;
+    font-weight:800;
+    margin:96px 0 60px; /* increased bottom spacing so boxes sit lower */
+  }
+  .section-title .strategy{color:rgba(242,16,16,0.28);font-weight:800}
+
+  .process{
+    display:flex;
+    justify-content:center;
+    gap:28px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+    align-items:center;
+  }
+  .process-card {
+  width: 280px;
+  min-height: 300px;
+  border-radius: 22.5px;
+  background: var(--glass-bg);
+  color: #333;
+  padding: 22px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  position: relative; /* needed for ::before outline */
+  overflow: hidden;
+  /* backdrop-filter: blur(30px); */
+  /* -webkit-backdrop-filter: blur(30px); */
+}
+
+/* gradient outline border */
+.process-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.9px; /* ← border thickness — increase this to make it thicker */
+  background: var(--glass-border); /* reuses your gradient border variable */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+  .process-card img{width:84px;margin:12px auto}
+  .process-card h3{font-size:20px;font-weight:800;margin:14px 0 8px}
+  /* descriptions: make them uniform to 3 lines */
+  .process-card p{
+    font-size:14px;
+    font-weight:600;
+    color:#333;
+    line-height:1.4;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    height:4.2em; /* 3 * line-height (1.4) => 4.2em */
+    margin:0 auto;
+  }
+  .process-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.process-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.15);
+}
+
+
+  /* arrows larger */
+  .step-arrow{width:72px;height:72px;display:flex;align-items:center;justify-content:center}
+  .step-arrow img{width:64px;height:auto}
+
+  .down-arrow{display:flex;justify-content:center;margin:48px 0} /* more vertical space above & below arrow */
+  .down-arrow img{width:56px;height:auto} /* slightly bigger down arrow */
+
+  /* 5. CHOOSE CATEGORY */
+  .choose{margin:48px 0 36px;display:flex;justify-content:center;align-items:center;gap:12px} /* more top space */
+  .choose .choose-block{display:inline-flex;align-items:center;gap:12px}
+  .choose h2{font-size:36px;font-weight:800;margin:0;color:var(--black-rgba)}
+  .choose .cat-icon{width:40px;height:40px;display:inline-block}
+
+  /* 6. CATEGORY OPTIONS */
+  .categories{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:28px 0 60px} /* increased top margin from CTA */
+  .cat{
+    padding:12px 18px;border-radius:8px;font-weight:700;font-size:14px;background:#fff;color:#000;cursor:pointer;
+    border:2px solid rgba(0,0,0,0.06);transition:all 180ms;box-shadow:0 6px 12px rgba(0,0,0,0.08)
+      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+  }
+  /* hover -> gradient + white text (as requested) */
+.cat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+  background: linear-gradient(to right, var(--brand-red) 0%, var(--brand-red-2) 100%);
+  background-clip: padding-box; /* ensures the gradient extends fully */
+  border: none; /* removes slight visible gap from previous border */
+  color: #fff;
+}
+.cat.active {
+  background: linear-gradient(90deg, var(--brand-red), var(--brand-red-2));
+  background-clip: padding-box; /* ensures gradient fills full area */
+  border: none; /* remove leftover white border edge */
+  color: #fff;
+  transform: scale(1.03);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); /* same subtle lift as hover */
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+ /* .cat:focus{outline:none;box-shadow:0 0 0 3px white}*/
+
+  .btn.lg{background: #000; color: white;}
+  .btn.lg:hover{ background: linear-gradient(90deg,var(--brand-red),var(--brand-red-2)); color: white; }
+
+  .assess-wrap{display:flex;justify-content:center;margin:36px 0 40px} /* extra breathing space above and below CTA */
+
+  /* 7. ROADMAP (icon on right) */
+  .roadmap{
+    margin:100px auto; /* reduce top slightly so it doesn't sit too close to choose area */
+    max-width:1100px;
+    padding:36px 40px;
+  }
+  .roadmap h3{font-size:32px;font-weight:800;margin:0;color:var(--black-rgba)}
+  .roadmap p{font-size:16px;line-height:1.6;margin:12px auto 0;max-width:920px;color:var(--black-rgba)}
+  .roadmap-head{display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:18px;flex-direction:row-reverse} /* icon on right */
+
+  .road-icon{width:60px;height:60px;display:inline-block}
+  .road-icon img{width:100%;height:100%;object-fit:contain}
+
+  /* 8. VISUALS: glass container copied pixel-for-pixel from other containers */
+  .visuals-card{
+    margin:18px auto 120px;
+    max-width:1100px;
+    border-radius:30px;
+    background:var(--glass-bg);
+    /* backdrop-filter:blur(50px);-webkit-backdrop-filter:blur(50px); */
+    position:relative;
+    padding:28px 32px;
+    box-shadow:0 0 40px rgba(0,0,0,0.12);
+  }
+  .visuals-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:30px;
+    padding:3px;
+    background:var(--glass-border);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    pointer-events:none;
+  }
+/* === visuals: safer sizing + kept hover effects === */
+
+/* make outer layout flexible but allow children to control size */
+.visuals-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: nowrap;
+  position: relative;
+  overflow-x: visible;
+}
+
+/* keep the holder (needed for hover selection) but don't force a fixed internal layout */
+.laptop-holder {
+  width: auto;           /* let image drive sizing */
+  height: auto;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+   overflow: hidden; 
+  /* overflow: scroll;      important to prevent hover scale overflow */
+  padding: 6px;          /* subtle breathing room */
+  background: transparent;
+}
+
+/* clamp laptop image so it can't explode; keep hover transform but reduce scale */
+.laptop-img {
+  max-width: 500px;
+  width: 40vw;           /* responsive: scales with viewport */
+  height: auto;
+  max-height:auto ;
+  border-radius: 14px;
+  /* box-shadow: 0 12px 40px rgba(0,0,0,0.18); */
+  position: relative;
+  z-index: 2;
+  transition: transform 0.5s ease, box-shadow 0.4s ease, filter 0.3s ease;
+  transform-origin: center center;
+}
+
+/* slightly less aggressive zoom so image doesn't overflow container */
+.laptop-holder:hover .laptop-img {
+  transform: scale(1.18); /* was 1.5 — reduced */
+  box-shadow: 0 18px 48px rgba(0,0,0,0.25);
+  filter: brightness(1.03);
+}
+
+/* arrow pulse (restore animation) */
+.visuals-arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 107px;
+  height: auto;
+  position: relative;
+  z-index: 3;
+}
+.visuals-arrow img {
+  width: 107px;
+  height: auto;
+  display: block;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+/* snapshot wrapper simplified — use img inside, clamp & keep hover */
+.snapshot {
+  width: auto;
+  min-height: 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  overflow: hidden; /* critical to prevent overscale */
+  padding: 12px;
+  background: linear-gradient(180deg,#ffffff,#fafafa);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.16);
+  border: 6px solid rgba(0,0,0,0.06);
+}
+
+/* snapshot image styling */
+.snapshot-img {
+  max-width: 360px;
+  width: 30vw;          /* responsive */
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.5s ease, box-shadow 0.4s ease, filter 0.3s ease;
+  transform-origin: center center;
+}
+.snapshot:hover .snapshot-img {
+  transform: scale(1.12); /* slightly smaller than original 1.2 for safety */
+  box-shadow: 0 18px 48px rgba(0,0,0,0.20);
+  filter: brightness(1.03);
+}
+
+/* pulse keyframes (ensure it's present) */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50%     { transform: scale(1.12); opacity: 1; }
+}
+
+/* RESPONSIVE: stack vertically on small screens */
+@media (max-width: 820px) {
+  .visuals-inner { gap: 20px; flex-direction: column; }
+  .laptop-img { width: 86vw; max-width: 420px; }
+  .snapshot-img { width: 86vw; max-width: 360px; }
+  .visuals-arrow { width: 68px; }
+  .visuals-arrow img { width: 68px; }
+}
+
+
+  /* 9. WHY TRUST */
+  .trust{
+    margin:52px auto;
+    max-width:1000px;
+    padding:36px 36px 56px; /* more bottom padding to separate from footer */
+  }
+  .trust h3{font-size:28px;font-weight:800;margin:0;color:var(--black-rgba)}
+  .trust p{font-size:15px;line-height:1.7;margin:12px auto 0;max-width:880px;color:black}
+  .trust-head{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px}
+  .trust-icon{width:36px;height:36px }
+
+  /* 10. FOOTER (About + Contact headings with red line directly under text) */
+  footer{background:var(--footer-bg);padding:48px 32px 24px;color:#fff}
+  .footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;max-width:1100px;margin:0 auto 24px}
+  .footer-brand img{width:220px;margin-bottom:12px}
+  .footer-brand p{font-size:14px;line-height:1.7;max-width:340px;color:rgba(255,255,255,0.9)}
+
+  .footer-nav,.footer-contact{display:flex;flex-direction:column;gap:8px}
+  .footer-nav .heading,.footer-contact .heading{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+  .footer-nav .heading h4,.footer-contact .heading h4{font-size:16px;font-weight:800;margin:0}
+  .bar-under{width:80px;height:4px;background:var(--brand-red);border-radius:2px}
+
+  .footer-nav a{font-weight:700;font-size:14px;color:rgba(255,255,255,0.92)}
+  .footer-contact .contact-row{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,0.92)}
+  .contact-icon{width:20px;height:20px;opacity:0.95}
+
+  /* Social icons now stand on their own, no white circle */
+  .socials{display:flex;gap:12px;margin-top:10px}
+.socials img {
+  width: 40px !important;   /* change this to whatever size you want */
+  height: 40px !important;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  object-fit: contain;
+  display: block; /* ensures size is respected */
+}
+  #desc{ font-weight: 700; color: #fff;}
+
+  html {
+  scroll-behavior: smooth;
+}
+
+
+
+  .footer-line{height:1px;background:rgba(255,255,255,0.12);margin:24px 0}
+  .copyright{display:flex;justify-content:space-between;align-items:center;font-style:italic;font-size:14px;color:rgba(255,255,255,0.86)}
+
+  /* small screens */
+  @media(max-width:900px){
+    .logo{width:180px}
+    .glass-card,.roadmap,.trust{padding:28px}
+    .glass-card h2{font-size:28px}
+    .section-title{font-size:28px;margin:14px 0}
+    .process-card{width:90%}
+    .visuals-card{padding:18px}
+    .laptop-holder{width:360px;height:240px}
+    .laptop-img{width:320px}
+    .snapshot{width:90%}
+    .footer-grid{grid-template-columns:1fr;gap:18px}
+    .copyright{flex-direction:column;gap:8px;text-align:center}
+    .socials img{width:80px;height:80px}
+  }
+body {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+body.loaded {
+  opacity: 1;
+}
+
+/* Smooth fade-in animation for dynamically added sections */
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#assessment-table tr:hover {
+  background: rgba(255, 171, 198, 0.2);
+  transition: background 0.3s ease;
+}
+
+
+/* Make table scrollable on mobile */
+@media(max-width: 768px) {
+  #assessment-table th,
+  #assessment-table td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+  #assessment-table {
+    min-width: 600px;
+  }
+}
+
+/* ===========================================
+   📱 RESPONSIVE MEASURES (FINAL VERSION)
+   =========================================== */
+
+/* ----- Medium screens: Triangle layout (≈1024px) ----- */
+@media (max-width: 1200px) {
+  .visuals-inner {
+    gap: 40px;
+  }
+  .laptop-img {
+    width: 34vw;
+  }
+  .snapshot img {
+    width: 28vw;
+  }
+}
+
+@media (max-width: 1080px) and (min-width: 901px) {
+  .process {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  /* first arrow down */
+  .process .step-arrow:nth-of-type(4) img {
+    transform: rotate(90deg);
+  }
+
+  /* second arrow right */
+  .process .step-arrow:nth-of-type(2) img {
+    transform: rotate(0deg);
+  }
+}
+
+/* ----- Tablet range (≤1024px) - triangle logic simplified ----- */
+@media (max-width: 1024px) and (min-width: 901px) {
+  .process .step-arrow:nth-of-type(4) img {
+    transform: rotate(90deg);
+  }
+}
+
+/* ----- General mobile range (≤1000px) ----- */
+@media (max-width: 1000px) {
+  /* HEADER */
+  .header-center {
+    display: none; /* hide logo */
+  }
+  .header-left,
+  .header-right {
+    width: 100%;
+    justify-content: center;
+  }
+}
+  /* PROCESS SECTION: all arrows face down */
+  .process {
+    flex-direction: column;
+    align-items: center;
+  }
+  .step-arrow img {
+    transform: rotate(90deg);
+  }
+  .process-card {
+    width: 90%;
+    text-align: center;
+  }
+
+  /* VISUALS SECTION */
+  .visuals-inner {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .laptop-img,
+  .snapshot img {
+    width: 80vw;
+    max-width: 420px;
+  }
+  .visuals-arrow img {
+    transform: rotate(90deg);
+    width: 70px;
+  }
+
+  /* FOOTER */
+/* ✅ Keep your existing heading alignment above */
+
+/* Balance everything in footer on small screens */
+@media (max-width: 1000px) {
+  .footer-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+  }
+
+  /* Center brand column fully */
+  .footer-brand {
+    text-align: center;
+  }
+
+  .footer-brand img {
+    margin: 0 auto;
+    display: block;
+  }
+
+  .footer-brand p {
+    margin: 0 auto;
+  }
+
+  /* Center socials perfectly */
+  .socials {
+    justify-content: center;
+  }
+
+  /* Center headings + bars (you already do this but keep for override safety) */
+  .footer-nav .heading,
+  .footer-contact .heading {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-nav .bar-under,
+  .footer-contact .bar-under {
+    margin: 6px auto 0;
+  }
+
+  /* Align contact rows neatly */
+  .footer-contact .contact-row {
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Copyright center */
+  .copyright {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+  }
+}
+
+
+/* ----- Smaller mobile range (≤820px) ----- */
+@media (max-width: 820px) {
+  .visuals-inner {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .laptop-img {
+    width: 86vw;
+    max-width: 400px;
+  }
+  .snapshot img {
+    width: 86vw;
+    max-width: 360px;
+  }
+  .visuals-arrow {
+    width: 68px;
+  }
+  .visuals-arrow img {
+    width: 68px;
+  }
+}
+
+/* ----- Compact phone range (≤600px) ----- */
+@media (max-width: 600px) {
+  .process-card p {
+    font-size: 14px;
+  }
+  .laptop-img,
+  .snapshot img {
+    width: 92vw;
+  }
+}
+
+/* ========= ENSURE HORIZONTAL DESKTOP LAYOUT & CLEAN RESPONSIVE RULES =========
+   Paste this at the *end* of your stylesheet (it intentionally overrides prior rules)
+============================================================================= */
+
+/* Base (desktop-first): process boxes horizontal, visuals horizontal */
+.process {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 28px !important;
+  flex-wrap: nowrap !important; /* keep horizontal on desktop */
+}
+
+/* step arrows default: point right */
+.step-arrow img,
+.visuals-arrow img {
+  transform: rotate(0deg);
+  transition: transform 0.28s ease, width 0.28s ease;
+  display: block;
+}
+
+/* visuals base: horizontal alignment */
+.visuals-inner {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 60px !important;
+  overflow-x: visible;
+}
+
+/* make sure laptop + snapshot sizing are safe on desktop */
+.laptop-img {
+  width: auto;
+  max-width: 520px;
+  width: 36vw;
+  transition: transform 0.45s ease, box-shadow 0.35s ease;
+}
+.snapshot-img,
+.snapshot img {
+  width: auto;
+  max-width: 380px;
+  width: 28vw;
+  transition: transform 0.45s ease, box-shadow 0.35s ease;
+}
+
+/* ---------- Triangle case: medium screens (only the middle arrow down) ---------- */
+/* apply only when layout actually becomes triangular-ish between 901px and 1080px */
+@media (min-width: 901px) and (max-width: 1080px) {
+  /* keep process mostly horizontal but allow wrap if needed */
+  .process { flex-wrap: wrap; gap: 36px; }
+
+  /* Target the *middle* arrow only (the arrow between 1st & 2nd or 2nd & 3rd as DOM ordering) */
+  /* Using nth-of-type to target the visible arrow between items: adjust if your DOM differs */
+  .process .step-arrow:nth-of-type(4) img {
+    transform: rotate(90deg); /* point down */
+  }
+  /* Ensure other arrows remain pointing right */
+  .process .step-arrow:not(:nth-of-type(2)) img {
+    transform: rotate(0deg);
+  }
+}
+
+/* ---------- Small screens: everything stacks vertically and all arrows point down ---------- */
+@media (max-width: 900px) {
+  /* Stack process vertically and center cards */
+  .process {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 30px !important;
+    flex-wrap: nowrap;
+  }
+  .process-card {
+    width: 90% !important;
+    max-width: 520px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  /* All step arrows point down and shrink a bit */
+  .step-arrow img {
+    transform: rotate(90deg) !important;
+    width: 72px !important;
+    height: auto;
+  }
+
+  /* visuals: stack and rotate the visuals arrow down */
+  .visuals-inner {
+    flex-direction: column !important;
+    gap: 28px !important;
+  }
+  .visuals-arrow img {
+    transform: rotate(90deg) !important;
+    width: 70px !important;
+  }
+
+  /* clamp images for mobile */
+  .laptop-img { width: 86vw; max-width: 460px; }
+  .snapshot-img,
+  .snapshot img { width: 86vw; max-width: 360px; }
+
+  /* footer & header tweaks (if needed) */
+  .header-center { display: none !important; } /* hide logo on small */
+}
+
+/* ---------- Extra-large desktop safety: prevent accidental vertical stacking ---------- */
+@media (min-width: 1081px) {
+  .process { flex-wrap: nowrap !important; gap: 28px !important; }
+  .step-arrow img { transform: rotate(0deg) !important; }
+  .visuals-inner { flex-direction: row !important; gap: 60px !important; }
+  .visuals-arrow img { transform: rotate(0deg) !important; width: 107px !important; }
+}
+
+/* ---------- Accessibility: ensure arrow images keep layout space (prevents content jump) ---------- */
+.step-arrow,
+.visuals-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  min-height: 64px;
+  box-sizing: border-box;
+}
+
+/* ---------- Optional: small tweak if DOM ordering of step-arrow differs ----------
+   If the arrow elements are not exactly nth-of-type(2) in your HTML, replace
+   the nth-of-type selector above with the correct index or add a class:
+   e.g. <div class="step-arrow middle"> -> .step-arrow.middle img { transform: rotate(90deg); }
+*/
+
+/* ✅ Chrome-safe overrides with borders restored */
+.glass-base::before,
+.process-card::before,
+.visuals-card::before {
+  background: var(--glass-border) !important; /* restore gradient border */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  pointer-events: none !important;
+}
+
+/* Keep layout stable but allow borders */
+.glass-base,
+.process-card,
+.visuals-card,
+.glass-style {
+  backdrop-filter: blur(0px) !important; /* neutral blur */
+  -webkit-backdrop-filter: blur(0px) !important;
+}
+
+/* Hover zoom softened */
+.laptop-holder:hover .laptop-img {
+  transform: scale(1.05) !important;
+}
+.snapshot:hover .snapshot-img {
+  transform: scale(1.05) !important;
+}
+
+/* Softer shadows */
+.process-card,
+.snapshot,
+.laptop-img {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+}
+
+/* Prevent layout jumps */
+body {
+  opacity: 1 !important;
+  transition: none !important;
+}
+html, body {
+  transform: none !important;
+}
+
+</style>
+<link rel="icon" type="image/png" href="media/oCompany.png">
+
+</head>
+
+<body>
+
+  <!-- HEADER -->
+<header>
+  <div class="header-left">
+    <a href="tel:+2348173018955" class="phone-link" aria-label="Call Company Integrated Services">
+      <img src="media/call icon.png" alt="call icon" width="28">
+      <div class="phone">+2348173018955</div>
+    </a>
+  </div>
+
+  <div class="header-center">
+    <a href="https://www.Companyisl.com" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       aria-label="Visit Company Integrated Services website">
+      <img src="media/Company-Logo.png" alt="Company logo" class="logo">
+    </a>
+  </div>
+
+  <div class="header-right">
+    <a href="mailto:sales@Companyisl.com" class="email-link" aria-label="Email Company Integrated Services">
+      <img src="media/mail icon.png" alt="mail icon" width="28">
+      <div class="email">sales@Companyisl.com</div>
+    </a>
+  </div>
+</header>
+
+
+
+  <main class="container">
+
+    <!-- KNOW YOUR RISKS -->
+    <section class="glass-base glass-card" aria-labelledby="risks-heading">
+      <div class="glass-inner">
+        <h2 id="risks-heading">Know your <span class="accent">risks</span> before others do.</h2>
+        <p>
+          Our assessment is a quick, guided questionnaire designed to help you identify strengths, gaps, and risks across technology, security, operations, and customer systems. By answering just a few targeted questions, you'll receive:
+        </p>
+        <ul style="margin-top:12px;margin-bottom:8px;">
+          <li>A clear picture of your current readiness</li>
+          <li>Practical recommendations for improvement</li>
+          <li>A personalized roadmap connecting you to the right solutions</li>
+        </ul>
+
+        <!-- centered button (while text remains left-aligned) -->
+<div class="glass-actions">
+  <a href="#clickshort" class="start-btn">Click here to get started</a>
+</div>
+
+      </div>
+    </section>
+
+    <!-- FROM SCORE TO STRATEGY -->
+    <div class="section-title" aria-hidden="true">
+      <span>From Score To</span>
+      <span class="strategy">Strategy</span>
+    </div>
+
+    <div class="process" role="list">
+      <div class="process-card" role="listitem">
+        <img src="media/play.png" alt="Start icon">
+        <h3>Start Your Assessment</h3>
+        <p>Answer a few quick questions about your company's posture.</p>
+      </div>
+
+      <!-- step arrow placeholder (replace with your asset) -->
+      <div class="step-arrow" aria-hidden="true"><img src="media/blackright.png" alt="step"></div>
+
+      <div class="process-card" role="listitem">
+        <img src="media/speedometer.png" alt="Score icon">
+        <h3>Get Your Score</h3>
+        <p>Instantly receive a clear, data-driven risk rating with key insights.</p>
+      </div>
+
+      <div class="step-arrow" aria-hidden="true"><img src="media/blackright.png" alt="step"></div>
+
+      <div class="process-card" role="listitem">
+        <img src="media/consulting (1).png" alt="Consult icon">
+        <h3>Consult Our Experts</h3>
+        <p>Work with our team to translate your results into actionable improvements.</p>
+      </div>
+    </div>
+
+    <div class="down-arrow" id="clickshort"  ><img src="media/downblack.png" alt="arrow"></div>
+
+<!-- CHOOSE CATEGORY (icon beside heading) -->
+<div class="choose" id="choose-category">
+  <div class="choose-block" role="heading" aria-level="2">
+    <h2>Choose a Category</h2>
+    <span class="cat-icon"><img src="media/category (1).png" alt="category icon"></span>
+  </div>
+</div>
+
+
+    <!-- CATEGORY OPTIONS -->
+    <!--<div class="categories" role="list">
+      <div class="cat" role="listitem">Technology Infrastructure &amp; Security</div>
+      <div class="cat" role="listitem">Business Process &amp; Automation</div>
+      <div class="cat" role="listitem">Customer &amp; Financial Systems</div>
+      <div class="cat" role="listitem">People &amp; Strategy</div>
+    </div>-->
+<div class="categories">
+  <button id="technology" class="cat" onclick="selectCategory('technology')">Technology Infrastructure & Security</button>
+  <button id="process" class="cat" onclick="selectCategory('process')">Business Process & Automation</button>
+  <button id="customer" class="cat" onclick="selectCategory('customer')">Customer & Financial Systems</button>
+  <button id="people" class="cat" onclick="selectCategory('people')">People & Strategy</button>
+</div>
+
+
+
+    <!-- assess button -->
+    <div class="assess-wrap">
+      <!--<button class="btn lg" id="assess-now">Click here to assess your company</button>-->
+      <button class="btn lg" id="assess-now" onclick="goToAssessment()">Click here to assess your company</button>
+    </div>
+
+    <!-- TURNING RESPONSES INTO ROADMAPS (icon on right) -->
+    <section class="glass-base roadmap" aria-labelledby="roadmap-heading">
+      <div class="roadmap-head">
+        <div class="road-icon" aria-hidden="true"><img src="media/planning.png" alt="roadmap icon"></div>
+        <h3 id="roadmap-heading">Turning Responses into Roadmaps</h3>
+      </div>
+      <p>
+        Your responses are systematically analyzed to provide a clear overview of organizational strengths and vulnerabilities. The results are presented through structured visuals, offering an objective basis for identifying priorities. These insights form the first step toward informed decision-making and targeted improvements.
+      </p>
+    </section>
+
+   <!-- VISUALS in its own glass container (cleaned but keeps CSS hooks) -->
+<section class="glass-base visuals-card" aria-label="visuals">
+  <div class="visuals-inner">
+    <!-- keep holder so existing CSS selectors work, remove decorative circle wrapper -->
+    <div class="laptop-holder" aria-hidden="true">
+      <img src="media/mockuptran.png" alt="Laptop assessment" class="laptop-img">
+    </div>
+
+    <div class="visuals-arrow" aria-hidden="true">
+      <img src="media/blackarrow.png" alt="arrow placeholder" />
+    </div>
+
+    <!-- keep snapshot wrapper but remove inner dashed-outline wrapper to avoid nested scaling -->
+    <div class="snapshot" aria-hidden="true">
+      <img src="media/new.png" alt="Assessment report snapshot" class="snapshot-img">
+    </div>
+  </div>
+</section>
+
+
+  </main>
+
+  
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid container">
+
+    <!-- Brand column -->
+    <div class="footer-brand">
+      <a href="https://www.Companyisl.com" target="_blank" rel="noopener noreferrer">
+        <img src="media/Company-Logo.png" alt="Footer logo">
+      </a>
+      <p id="desc" align="center">
+        We are Company, a dynamic technology solution provider in Lagos, Nigeria.
+        We pride ourselves in our ability to shape organisational change and digital transformation.
+      </p>
+
+      <!-- Socials -->
+      <div class="socials" aria-label="social media links">
+        <a href="https://facebook.com/people/Company-Integrated-Services-Limited/100093247320175/" target="_blank" rel="noopener noreferrer">
+          <img src="media/facebookred.png" alt="facebook">
+        </a>
+        <a href="https://twitter.com/consulting_Company" target="_blank" rel="noopener noreferrer">
+          <img src="media/twiiterred.png" alt="twitter">
+        </a>
+        <a href="https://instagram.com/Company.isl" target="_blank" rel="noopener noreferrer">
+          <img src="media/instared.png" alt="instagram">
+        </a>
+        <a href="https://www.linkedin.com/company/Company-consulting-group/" target="_blank" rel="noopener noreferrer">
+          <img src="media/linkred.png" alt="linkedin">
+        </a>
+      </div>
+    </div>
+
+    <!-- About column -->
+    <div class="footer-nav">
+      <div class="heading">
+        <a href="https://Companyisl.com/about-us/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+          <h4>About Us</h4>
+        </a>
+        <div class="bar-under" aria-hidden="true"></div>
+      </div>
+
+      <a href="https://Companyisl.com/solutions-and-services/" target="_blank" rel="noopener noreferrer">Solutions &amp; Services</a>
+      <a href="https://Companyisl.com/case-studies/" target="_blank" rel="noopener noreferrer">Case Studies</a>
+      <a href="https://Companyisl.com/news/" target="_blank" rel="noopener noreferrer">News</a>
+      <a href="https://Companyisl.com/contact/" target="_blank" rel="noopener noreferrer">Contact</a>
+
+      <div style="margin-top:12px;display:flex;justify-content:center">
+        <a href="https://Companyisl.com/wp-content/uploads/2023/12/Company-Brochure.pdf" class="btn lg brochure" target="_blank" rel="noopener noreferrer">
+          Download Our Brochure
+        </a>
+      </div>
+    </div>
+
+    <!-- Contact column -->
+    <div class="footer-contact">
+      <div class="heading">
+        <a href="https://Companyisl.com/contact/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+          <h4>Contact</h4>
+        </a>
+        <div class="bar-under" aria-hidden="true"></div>
+      </div>
+
+      <div style="margin-top:6px;display:flex;flex-direction:column;gap:8px; font-weight:700;">
+        <div class="contact-row">
+          <img src="media/location.png" alt="location" class="contact-icon">
+          <div>3rd Floor, Propertygate Centre,<br>2 The Rock Drive, CBD, Lekki Phase 1, Lagos, Nigeria</div>
+        </div>
+        <div class="contact-row">
+          <img src="media/Phone.png" alt="call" class="contact-icon">
+          <div>+2348033918955</div>
+        </div>
+        <div class="contact-row">
+          <img src="media/Phone.png" alt="call2" class="contact-icon">
+          <div>02016348889</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-line"></div>
+
+  <div class="container">
+    <div class="copyright">
+      <div>CompanyISL... Re-Invent, Thrive.</div>
+      <div>Copyright © 2025 All rights reserved</div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.2 });
+  
+  fadeEls.forEach(el => observer.observe(el));
+});
+window.addEventListener('load', () => document.body.classList.add('loaded'));
+
+
+  let selectedCategory = null;
+
+  function selectCategory(cat) {
+    selectedCategory = cat;
+    // remove highlight from all category buttons
+    document.querySelectorAll(".cat").forEach(btn => btn.classList.remove("active"));
+    // add highlight to the selected one
+    document.getElementById(cat).classList.add("active");
+  }
+
+  function goToAssessment() {
+    if (!selectedCategory) {
+      alert("Please select a category first!");
+      return;
+    }
+
+    // store category for questionnaire page
+    localStorage.setItem("selectedCategory", selectedCategory);
+
+    // navigate to questionnaire page
+
+    // window.open("questionnaire.html", "_blank", "noopener,noreferrer");
+    window.open(`/assessment/${selectedCategory}`, "_blank");
+
+  }
+// function goToAssessment() {
+//   if (!selectedCategory) return;
+
+//   // Detect local testing
+//   const isLocal = window.location.hostname === "localhost" || window.location.protocol === "file:";
+
+//   // Build correct link
+//   const url = isLocal
+//     ? `questionnaire.html?category=${selectedCategory}`
+//     : `/assessment/${selectedCategory}`;
+
+//   // Open in new tab
+//   window.open(url, "_blank", "noopener");
+// }
+
+
+window.addEventListener("assessmentCompleted", () => {
+  updateAssessmentSummary(); // or whatever function repaints the status
+
+  if (localStorage.getItem("forceSummaryRefresh")) {
+  updateAssessmentSummary();
+  localStorage.removeItem("forceSummaryRefresh");
+}
+
+});
+
+
+</script>
+<!-- <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const history = JSON.parse(localStorage.getItem("Company_assessment_history") || "[]");
+  if (!history.length) return; // no assessments → no dashboard
+
+  // create section wrapper
+  const dashSection = document.createElement("section");
+  dashSection.classList.add("glass-base", "fade-in");
+  dashSection.style.margin = "100px auto";
+  dashSection.style.maxWidth = "1100px";
+  dashSection.style.padding = "50px 40px";
+  dashSection.style.borderRadius = "28px";
+  dashSection.style.background = "var(--glass-bg)";
+  // dashSection.style.backdropFilter = "blur(40px)";
+  dashSection.style.color = "#000";
+  dashSection.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+  dashSection.style.opacity = "0";
+  dashSection.style.transform = "translateY(30px)";
+  dashSection.innerHTML = `
+    <h2 style="text-align:center;font-size:34px;font-weight:800;margin-bottom:30px;">
+      Assessment Summary
+    </h2>
+    <div style="overflow-x:auto; border-radius:18px;">
+      <table id="assessment-table" style="
+        width:100%;
+        border-collapse:collapse;
+        text-align:center;
+        background:rgba(255,255,255,0.75);
+        border-radius:16px;
+        overflow:hidden;
+      ">
+        <thead>
+          <tr style="background:linear-gradient(90deg, var(--brand-red), var(--brand-red-2)); color:#fff;">
+            <th style="padding:14px;font-weight:800;">Category</th>
+            <th style="padding:14px;font-weight:800;">Score</th>
+            <th style="padding:14px;font-weight:800;">Date</th>
+            <th style="padding:14px;font-weight:800;">Status</th>
+          </tr>
+        </thead>
+        <Companydy>
+          ${history.map(item => `
+            <tr style="background:${item.score >= 60 ? 'rgba(105,240,174,0.08)' : 'rgba(242,16,16,0.05)'};">
+              <td style="padding:12px 10px;font-weight:600;">${item.category}</td>
+              <td style="padding:12px 10px;font-weight:700;">${item.score}%</td>
+              <td style="padding:12px 10px;">${item.date}</td>
+              <td style="padding:12px 10px;font-weight:700;color:${item.score >= 60 ? '#09b66d' : '#f21010'};">
+                ${item.score >= 60 ? 'Completed' : 'In Progress'}
+              </td>
+            </tr>
+          `).join("")}
+        </Companydy>
+      </table>
+    </div>
+  `;
+
+  // insert before footer
+  const footer = document.querySelector("footer");
+  document.body.insertBefore(dashSection, footer);
+
+  // smooth reveal
+  setTimeout(() => {
+    dashSection.style.opacity = "1";
+    dashSection.style.transform = "translateY(0)";
+  }, 150);
+});
+</script> -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const history = JSON.parse(localStorage.getItem("Company_assessment_history") || "[]");
+  if (!history.length) return;
+
+  const dashSection = document.createElement("section");
+  dashSection.classList.add("glass-base", "fade-in");
+  dashSection.innerHTML = `
+    <h2 style="text-align:center;font-size:34px;font-weight:800;margin-bottom:30px;">Assessment Summary</h2>
+    <div style="overflow-x:auto;">
+      <table id="assessment-table" style="width:100%;border-collapse:collapse;text-align:center;">
+        <thead>
+          <tr style="background:linear-gradient(90deg,#f21010,#ffabc6);color:#fff;">
+            <th style="padding:12px;">Category</th>
+            <th style="padding:12px;">Score</th>
+            <th style="padding:12px;">Date</th>
+            <th style="padding:12px;">Status</th>
+          </tr>
+        </thead>
+        <Companydy>
+          ${history.map(item => `
+            <tr>
+              <td>${item.category}</td>
+              <td>${item.score}%</td>
+              <td>${item.date}</td>
+              <td style="color:${item.score >= 60 ? '#09b66d' : '#f21010'};">
+                ${item.score >= 60 ? 'Completed' : 'In Progress'}
+              </td>
+            </tr>`).join("")}
+        </Companydy>
+      </table>
+    </div>
+  `;
+
+  document.body.insertBefore(dashSection, document.querySelector("footer"));
+});
+</script>
+
+</body>
+</html>

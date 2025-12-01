@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Company - Company Assessment</title>
+  <meta name="description" content="Company Secure Assessment - Evaluate your business maturity and get a personalized roadmap." />
+  <meta name="author" content="Company" />
+  <link rel="icon" type="image/png" href="media/oCompany.png" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+
+<!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>-->
+
+  <link rel="stylesheet" href="questionnaire.css" /> 
+
+  <!-- Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="top-header" role="banner">
+    <div class="header-left">
+      <a href="tel:+12345678" class="phone-link" aria-label="Call Company">
+        <img src="media/call icon.png" alt="" width="20"><span class="contact-text">+12345678</span>
+      </a>
+    </div>
+
+    <div class="header-center" aria-hidden="false">
+      <a href="/assessment" aria-label="Home">
+        <img src="media/Company-Logo.png" alt="Company logo" class="header-logo">
+      </a>
+    </div>
+
+    <div class="header-right">
+      <a href="sales.com" aria-label="Email sales">
+        <img src="media/mail icon.png" alt="" width="20"><span class="contact-text">sales.com</span>
+      </a>
+    </div>
+  </header>
+<!--  Company Secure Assessment Initialization -->
+<div id="loading-screen" class="loading-screen">
+  <img src="media/Company-Logo.png" alt="Company Logo" class="loading-logo">
+  <p class="loading-text">Initializing Secure Assessment Environment...</p>
+  <div class="spinner"></div>
+</div>
+
+<div id="privacy-modal" class="privacy-modal hidden">
+  <div class="privacy-content glass-style">
+    <img src="media/lockred.png" alt="Lock icon" class="lock-icon">
+    <h2>Your Privacy Matters</h2>
+    <p>
+      This assessment runs securely on your device.<br>
+      No data is stored or transmitted - your responses remain 100% confidential.<br>
+      Results are processed locally to generate your roadmap.
+    </p>
+    <button id="acknowledge-btn" class="btn lg">Acknowledge & Start</button>
+  </div>
+</div>
+
+<style>
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at 20% 20%, rgba(15,15,15,1), #000);
+  color: #fff;
+  z-index: 9998;
+  font-family: "Inter", sans-serif;
+  transition: opacity 0.6s ease;
+}
+.loading-logo {
+  width: 220px;
+  height: auto;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 20px rgba(242,16,16,0.4));
+  animation: fadeIn 1s ease forwards;
+}
+.loading-text {
+  font-weight: 600;
+  opacity: 0.9;
+  letter-spacing: 0.4px;
+  margin-bottom: 18px;
+}
+.spinner {
+  width: 52px;
+  height: 52px;
+  border: 4px solid rgba(255,255,255,0.1);
+  border-top: 4px solid #f21010;
+  border-radius: 50%;
+  animation: spin 1.3s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(242,16,16,0.5));
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.privacy-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+.privacy-modal.hidden { display: none; opacity: 0; }
+
+.glass-style {
+  text-align: center;
+  max-width: 520px;
+  padding: 46px 40px;
+  border-radius: 28px;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-shadow: inset 0 0 40px rgba(242,16,16,0.01),
+              0 0 60px rgba(0,0,0,0.45);
+  color: #fff;
+  border: 1.5px solid rgba(242,16,16,0.15);
+  animation: popIn 0.45s ease;
+}
+.lock-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 10px rgba(242,16,16,0.45));
+}
+.glass-style h2 {
+  font-weight: 800;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+.glass-style p {
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.92;
+  margin-bottom: 30px;
+}
+@keyframes popIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+
+.btn.lg {
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+.btn.lg:hover {
+  background: linear-gradient(90deg, #f21010, #ffabc6);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+
+#pdf-container {
+  min-height: 100vh;
+  height: auto !important;
+  background: #001f3f; 
+  padding-bottom: 40px; 
+  box-sizing: border-box;
+}
+
+.pdf-page {
+  page-break-inside: avoid;
+  background: #001f3f;
+  min-height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+}
+.force-fullpage {
+  position: relative;
+  min-height: 1120px; 
+  width: 100%;
+  background: #001f3f;
+  box-sizing: border-box;
+  padding-bottom: 80px;
+}
+
+
+
+</style>
+
+<script>
+
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loading-screen");
+  const modal = document.getElementById("privacy-modal");
+  const btn = document.getElementById("acknowledge-btn");
+
+  const hasAcknowledged = localStorage.getItem("Company_privacy_ack");
+
+  // Step 1: Fade out loader
+  setTimeout(() => {
+    loader.style.opacity = "0";
+    setTimeout(() => {
+      loader.remove();
+
+      // Step 2: Show modal only if not acknowledged before
+      if (!hasAcknowledged) {
+        modal.classList.remove("hidden");
+      }
+    }, 700);
+  }, 2500);
+
+  // Step 3: When they click Acknowledge
+  btn.addEventListener("click", () => {
+    modal.style.opacity = "0";
+    localStorage.setItem("Company_privacy_ack", "true");
+    setTimeout(() => modal.remove(), 500);
+  });
+});
+
+
+  const supabaseClient = supabase.createClient(
+    "https://xyzcompany.supabase.co",
+    "eyJhbGciOi"
+  );
+
+</script>
+
+<!-- Email Gate Modal -->
+<div id="emailGateModal" class="email-gate hidden">
+  <div class="email-gate-content">
+    <h2>Get Your Report</h2>
+    <p>Please enter your details to receive your personalized PDF report.</p>
+
+    <input id="leadCompany" type="text" placeholder="Company Name" />
+    <input id="leadEmail" type="email" placeholder="Work Email" />
+
+    <button id="submitLeadBtn" class="submit-lead">Send Report</button>
+
+    <div id="emailSentNotice" 
+      style="display:none; margin-top:10px; color:#28a745; font-weight:600;">
+      <!-- ✔️ Your report has been sent! -->
+    </div>
+  </div>
+</div>
+
+
+  <main class="assessment-wrapper" id="app">
+    <div class="question-card glass" id="card" role="region" aria-live="polite" aria-labelledby="q-title">
+      <header class="question-header">
+        <div class="left-header">
+          <div class="step-circle" id="questionNumber" aria-hidden="true">1</div>
+        </div>
+
+        <div class="progress-wrap" aria-hidden="true">
+          <div class="progress-bar" aria-hidden="true">
+            <div id="progressFill" class="progress-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="right-header">
+          <button id="infoBtn" class="info-btn" aria-label="Question info" title="More info about this question">!</button>
+   
+        </div>
+      </header>
+
+      <section class="question-body" id="questionBody">
+     
+      </section>
+
+<div class="question-footer">
+  <button id="prevBtn" class="nav-btn">
+    <img src="media/nextwhite.png" alt="Previous" class="nav-icon" />
+    Previous
+  </button>
+
+  <button id="nextBtn" class="nav-btn primary">
+    Next
+    <img src="media/nextwhite.png" alt="Next" class="nav-icon" />
+  </button>
+</div>
+
+    </div>
+
+
+
+  </main>
+
+
+<div id="tooltip" class="tooltip" role="dialog" aria-hidden="true"></div>
+
+
+<div id="results-loader" class="results-loader hidden">
+  <div class="loader-content">
+    <div class="spinner"></div>
+    <p>Generating your custom roadmap…</p>
+  </div>
+</div>
+
+
+<!--  Chart.js, html2pdf  -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  </div>
+</div>
+
+<style>
+.email-gate {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+.email-gate.hidden { display: none; }
+.email-gate-content h2 {
+ color: black;
+
+}
+ .email-gate-content h4{ color: black;}
+
+.email-gate-content p {
+ color: black;
+} 
+.email-gate-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+  font-family: Inter, sans-serif;
+}
+#emailGateModal {
+  transition: opacity 0.3s ease;
+}
+
+
+.email-gate-content input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.submit-lead {
+  width: 100%;
+  padding: 12px;
+  background: #f21010;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+</style>
+
+ 
+
+
+<script src="questionnaire.js" defer>
+
+
+
+
+</script>
+
+</body>
+</html>
